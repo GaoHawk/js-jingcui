@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="scop.js">
+    </script>
+    <script>
+        foo();
+        var fade = function (node) {
+             var level = 1;
+             var step = function(){
+                 var hex = level.toString(16);
+                 node.style.backgroundColor = '#FFFF' + hex + hex;
+                 if(level <15){
+                     level += 1;
+                     setTimeout(step,100);
+                 }
+             };
+             setTimeout(step,100);
+        };
+
+
+    </script>
+</head>
+<body style="height: 200px;">
+    <div id="fitst" onclick="add_the_handlers()">
+        click me
+    </div>
+    <div onclick="add_the_handlers()">
+        2
+    </div>
+
+    <script>
+        var nodes = document.querySelectorAll('div');
+
+
+        function add_the_handlers(){
+            console.log(nodes);
+            var i;
+            for(i=0;i<nodes.length;i++){
+                 nodes[i].onclick = function(i){
+                      return function (e){
+                          alert(i);
+                      }
+                 }(i);
+            }
+        }
+        fade(document.getElementsByTagName('body')[0]);
+    </script>
+</body>
+</html>
