@@ -28,26 +28,97 @@
         city:"Los Angeles"
       }
     };
+    var MYAPP = {};
+    MYAPP.stooge={
+      "first-name":"Joe",
+      "last-name":'Howard'
+    };
+    MYAPP.flight = {
+       airline:'Oceanic',
+       number:815,
+       departure:{
+         IATA:'SYD',
+         time:"2004-09-22 14:55",
+         city:"Sydney"
+       },
+       arrival:{
+         IATA:'LAX',
+         time:'2004-09-23 10:42',
+         city:"Los Angeles"
+       }
+    }
+    var add = function (a,b){
+      return a + b;
+    }
 
-    console.log(stooge["first-name"]);
-    console.log(flight.departure.IATA);
+    var myObject = {
+       value:0,
+       increment: function(inc){
+         this.value += typeof inc === 'number'?inc:1;
+       },
+       getValue: function(){
+          return this.value
+       }
+    }
+    myObject.increment();
+    document.writeln(myObject.value);
 
-    console.log(stooge['middle-name'])
-    var middle = stooge['middle-name'] || "(none)";
-    var status = flight.status || "unknown";
-    console.log(middle,status);
+    myObject.increment(2);
+    document.writeln(myObject.value);
 
-    var another_stooge = Object.beget(stooge);
-    stooge.profession = 'actor';
-    console.log(another_stooge.profession);
+    var sum = add(3,4);
+    document.writeln(sum);
 
-    console.log(typeof flight.number)
-    console.log(typeof flight.status)
-    console.log(typeof flight.arrival)
-    console.log(typeof flight.mainfest)
-    console.log(typeof flight.toString)
-    console.log(flight.hasOwnProperty('number'))
-    console.log(flight.hasOwnProperty('constructor'))
+    myObject.double = function(){
+       var that = this;
+
+       var helper = function(){
+         that.value = add(that.value,that.value);
+       }
+       helper();
+    };
+
+    myObject.double();
+    document.writeln(myObject.getValue());
+
+    var Quo = function (string){
+      this.status = string;
+    };
+    Quo.prototype.get_status = function(){
+       return this.status;
+    }
+
+    var myQuo = new Quo('confused');
+    document.writeln(myQuo.get_status());
+    
+    var array = [3,4];
+    var sum = add.apply(null,array);
+    console.log(sum);
+    var statusObject = {
+      status:'A-OK'
+    }
+
+    var status = Quo.prototype.get_status.apply(statusObject);
+    console.log(status);
+    // console.log(stooge["first-name"]);
+    // console.log(flight.departure.IATA);
+
+    // console.log(stooge['middle-name'])
+    // var middle = stooge['middle-name'] || "(none)";
+    // var status = flight.status || "unknown";
+    // console.log(middle,status);
+
+    // var another_stooge = Object.beget(stooge);
+    // stooge.profession = 'actor';
+    // console.log(another_stooge.profession);
+
+    // console.log(typeof flight.number)
+    // console.log(typeof flight.status)
+    // console.log(typeof flight.arrival)
+    // console.log(typeof flight.mainfest)
+    // console.log(typeof flight.toString)
+    // console.log(flight.hasOwnProperty('number'))
+    // console.log(flight.hasOwnProperty('constructor'))
   </script>
 </body>
 </html>
