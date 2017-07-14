@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+    Function.prototype.method = function(name,func){
+      if(!this.prototype[name]){
+          this.prototype[name] = func; 
+      }
+      return this;
+    };
+
+    Function.method('new',function(){
+      var that = Object.beget(this.prototype);
+
+      var other = this.apply(that,arguments);
+
+      return (typeof other === 'object' && other) || that;
+    });
+
+    var Mammal = function(name){
+      this.name = name;
+    };
+
+    Mammal.prototype.get_name = function(){
+      return this.name;
+    }
+    Mammal.prototype.says = function() {
+      return this.saying || '';
+    }
+    
+    var myMammal = new Mammal('Herb the Mammal');
+    var name = myMammal.get_name();
+    console.log(name);
+
+    var Cat = function(name){
+      this.name= name;
+      this.saying = 'meow';
+    }
+    Cat.prototype = new Mammal();
+    Cat.prototype.purr = function(n) {
+      var i, s ='';
+      for(i=0;i<n;i +=1){
+        if(s){
+          s += '-';
+        }
+        s += 'r';
+      }
+      return s;
+    };
+    Cat.prototype.get_name = function(){
+       return this.says() + ' ' + this.name + ' ' + this.says();
+    }
+
+    var myCat = new Cat('Henrietta');
+    var says = myCat.says();
+    var purr = myCat.purr(5);
+    var name = myCat.get_name();
+    console.log(says,purr,name);
+
+    Function.method('inherits',function(Parent){
+       this.prototype = new Parent();
+       return this;
+    });
+
+    var Cat = function(name){
+      this.name = name;
+      this.saying = 'meow';
+    }.inherits(Mammal).method('purr',function(n){
+      var i, s='';
+      for(i=0;i<n;i++){
+        if(s){
+          s += '-';
+        }
+        s += 'r';
+      }
+      return s;
+    }).
+    method('get_name',function(){
+      return this.says() + ' ' + this.name = ' '+ this.says();
+    })
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

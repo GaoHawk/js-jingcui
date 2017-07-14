@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+    Function.prototype.method = function(name,func){
+      if(!this.prototype[name]){
+          this.prototype[name] = func; 
+      }
+      return this;
+    };
+
+    String.method('deentityify',function(){
+      var entity = {
+        quot: '"',
+        lt: '<',
+        gt: '>'
+      }
+      return function(){
+        return this.replace(/&([^&;]+);/g,
+          function(a,b) {
+            var r = entity[b];
+            return typeof r === 'string'? r:a;
+          }
+        );
+      };
+    }());
+    document.writeln('&lt;&quot;&gt;'.deentityify( ));
+
+    var serial_maker = function(){
+      var prefix = '';
+      var seq = 0;
+      return {
+        set_prefix:function(p){
+          prefix = String(p);
+        },
+        set_seq: function(s){
+          seq = s;
+        },
+        gensym: function(){
+          var result = prefix + seq;
+          seq +=1;
+          return result;
+        }
+      };
+    };
+    var seqer = serial_maker();
+    seqer.set_prefix('Q');
+    seqer.set_seq(1000);
+    var unique = seqer.gensym();
+    console.log(unique);
+
+    // var fibonacci = function(n) {
+    //   return n <2? n: fibonacci(n-1)+fibonacci(n-2);
+    // };
+
+    // var fibonacci = function() {
+    //   var memo = [0,1];
+    //   var fib = function(n) {
+    //     var result = memo[n];
+    //     if(typeof result !== 'number'){
+    //       result = fib(n-1) + fib(n-2);
+    //       memo[n] = result;
+    //     }
+    //     return result;
+    //   };
+    //   return fib;
+    // }();
+
+
+    
+    var memoizer = function(memo,fundamental){
+       var shell = function(n) {
+          var result = memo[n];
+          if(typeof result !== 'number'){
+            result = fundamental(shell,n);
+            memo[n] = result;
+          }
+          return result;
+       };
+       return shell;
+    };
+    var fibonacci = memoizer([0,1],function(shell,n){
+       return shell(n-1) + shell(n-2);
+    })
+    var factorial = memoizer([1,1],function(shell,n){
+      return n * shell(n-1);
+    })
+
+    for(var i=0;i<=10; i+=1){
+      document.writeln('// ' + i + ': ' + factorial(i));
+    }
+
+
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

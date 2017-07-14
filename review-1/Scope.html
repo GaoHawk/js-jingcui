@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script>
+    var foo = function(){
+      var a = 3,b=5;
+      var bar = function(){
+        var b = 7,c=11;
+        console.log(a,b,c);
+        a += b+c;
+        console.log(a,b,c);
+      };
+      // console.log(a,b,c);
+      bar();
+      console.log(a,b);
+    };
+    foo();
+
+    var myObject = function(){
+      var value = 0;
+
+      return {
+        increment: function (inc){
+          value += typeof inc === 'number'? inc:1;
+        },
+        getValue: function(){
+          return value;
+        }
+      }
+    }();
+
+    var quo = function(status) {
+      return {
+        get_status:function(){
+          return status;
+        }
+      }
+    }
+    var myQuo = quo("amazed");
+    document.writeln(myQuo.get_status());
+    var fade = function (node){
+      var level = 1;
+      var step = function () {
+        var hex = level.toString(16);
+        node.style.backgroundColor = `#FFFF` + hex + hex;
+        if(level <15) {
+          level += 1;
+          setTimeout(step,100);
+        }
+      };
+      setTimeout(step,100);
+    };
+    fade(document.body);
+
+    var add_the_handlers = function(nodes){
+       var i;
+       for(i=0;i<nodes.length;i +=1){
+         nodes[i].onclick = function(e){
+            alert(i);
+         }
+       }
+    }
+    add_the_handlers(document.body);
+    request = prepare_the_request();
+    response = send_request_synchronously(request);
+  </script>
+</head>
+<body>
+  <div>1
+    <div>2
+      <div>3</div>
+    </div>
+  </div>
+</body>
+</html>
